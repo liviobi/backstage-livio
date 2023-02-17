@@ -28,3 +28,10 @@ steps:
       ]
     env:
       - 'DOCKER_BUILDKIT=1'
+
+  # Docker Push
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/${PROJECT_ID}/backstage:xtech-micro-${COMMIT_SHA}']
+  # Docker Push
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/${PROJECT_ID}/backstage:xtech-micro']
