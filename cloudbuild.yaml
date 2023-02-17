@@ -11,7 +11,7 @@ steps:
   # Yarn build
   - name: 'node:16-bullseye-slim'
     entrypoint: 'yarn'
-    args: ['build']
+    args: ['build:backend']
   # Docker Build
   - name: 'gcr.io/cloud-builders/docker'
     args:
