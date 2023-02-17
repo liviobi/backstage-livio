@@ -1,7 +1,7 @@
 steps:
   # Yarn install
-  #- name: 'gcr.io/${PROJECT_ID}/ubuntu-node-python:22.0.4-3.10-16.17'
-  - name: 'paketobuildpacks/yarn'
+  - name: 'gcr.io/${PROJECT_ID}/ubuntu-node-python:22.0.4-3.10-16.17'
+    #- name: 'paketobuildpacks/yarn'
     entrypoint: 'yarn'
     args: ['install', '--frozen-lockfile', '--network-timeout', '300000']
   # Yarn tsc
