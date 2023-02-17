@@ -5,11 +5,11 @@ steps:
     entrypoint: 'yarn'
     args: ['install', '--network-timeout', '300000']
   # Yarn tsc
-  - name: 'gcr.io/cloud-builders/yarn'
+  - name: 'node:16-bullseye-slim'
     entrypoint: 'yarn'
     args: ['tsc']
   # Yarn build
-  - name: 'gcr.io/cloud-builders/yarn'
+  - name: 'node:16-bullseye-slim'
     entrypoint: 'yarn'
     args: ['build']
   # Docker Build
