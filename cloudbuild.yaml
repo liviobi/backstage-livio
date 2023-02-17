@@ -1,27 +1,10 @@
 steps:
   # Yarn install
   #- name: 'gcr.io/${PROJECT_ID}/ubuntu-node-python:22.0.4-3.10-16.17'
-  - name: 'paketobuildpacks/yarn'
-    entrypoint: 'yarn'
-    args: ['install', '--frozen-lockfile', '--network-timeout', '300000']
+  - name: 'ubuntu:latest'
+    entrypoint: 'pwd'
+    #args: ['install', '--frozen-lockfile', '--network-timeout', '300000']
   # Yarn tsc
-  - name: 'gcr.io/cloud-builders/yarn'
-    entrypoint: 'yarn'
-    args: ['tsc']
-  # Yarn build
-  - name: 'gcr.io/cloud-builders/yarn'
-    entrypoint: 'yarn'
-    args: ['build']
-  # Docker Build
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      [
-        'build',
-        '.',
-        '-f',
-        'packages/backend/Dockerfile',
-        '-t',
-        'gcr.io/${PROJECT_ID}/backstage:xtech-micro-${COMMIT_SHA}',
-        '-t',
-        'gcr.io/${PROJECT_ID}/backstage:xtech-micro',
-      ]
+  - name: 'ubuntu:latest'
+    entrypoint: 'ls'
+    args: ['-al']
