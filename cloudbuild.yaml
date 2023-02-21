@@ -35,3 +35,26 @@ steps:
   # Docker Push
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/${PROJECT_ID}/backstage:xtech-micro']
+  # Deploy on cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args:
+      [
+        'run',
+        'deploy',
+        'backstage-xtech-micro',
+        '--image',
+        'gcr.io/${PROJECT_ID}/backstage:xtech-micro-${COMMIT_SHA}',
+        '--region',
+        'europe-west1',
+        '--service-account',
+        '${_SERVICE_ACCOUNT}',
+        '--set-env-vars=POSTGRES_USER=$$BACKSTAGE_PG_USERNAME,POSTGRES_PASSWORD=$$BACKSTAGE_PG_PASSWORD,POSTGRES_HOST=${POSTGRES_HOST},POSTGRES_DB=${POSTGRES_DB},BACKSTAGE_APP_URL=${BACKSTAGE_APP_URL},BACKSTAGE_APP_TITLE=${BACKSTAGE_APP_TITLE},BACKSTAGE_APP_CORS=${BACKSTAGE_APP_CORS},BACKSTAGE_APP_ORG_NAME=${BACKSTAGE_APP_ORG_NAME}',
+      ]
+    secretEnv: ['BACKSTAGE_PG_USERNAME', 'BACKSTAGE_PG_PASSWORD']
+availableSecrets:
+  secretManager:
+    - versionName: projects/${PROJECT_ID}/secrets/BACKSTAGE_PG_PASSWORD/versions/latest
+      env: 'BACKSTAGE_PG_PASSWORD'
+    - versionName: projects/${PROJECT_ID}/secrets/BACKSTAGE_PG_USERNAME/versions/latest
+      env: 'BACKSTAGE_PG_USERNAME'
