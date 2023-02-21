@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: backstage
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  backstage:
+    image: backstage
+    environment:
+      BACKSTAGE_APP_URL: 'http://localhost:7007'
+      BACKSTAGE_APP_TITLE: 'Backstage DEV Docker'
+      BACKSTAGE_APP_ORG_NAME: 'Livio Org'
+      BACKSTAGE_APP_CORS: '0.0.0.0'
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: backstage
+      POSTGRES_HOST: postgres
+    ports:
+      - '7007:7007'
+    depends_on:
+      - postgres
+
+volumes:
+  postgres-data:
