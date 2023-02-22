@@ -36,29 +36,23 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/${PROJECT_ID}/backstage:xtech-micro']
   # Deploy on cloud Run
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: 'gcloud'
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     args:
-      [
-        'run',
-        'deploy',
-        'backstage-xtech-micro',
-        '--image',
-        'gcr.io/${PROJECT_ID}/backstage:xtech-micro-${COMMIT_SHA}',
-        '--region',
-        'europe-west1',
-        '--service-account',
-        '${_SERVICE_ACCOUNT}',
-        '--set-env-vars=POSTGRES_USER=$$BACKSTAGE_PG_USERNAME,POSTGRES_PASSWORD=$$BACKSTAGE_PG_PASSWORD,POSTGRES_HOST=${_POSTGRES_HOST},POSTGRES_DB=${_POSTGRES_DB},BACKSTAGE_APP_URL=${_BACKSTAGE_APP_URL},BACKSTAGE_APP_TITLE=${_BACKSTAGE_APP_TITLE},BACKSTAGE_APP_CORS=${_BACKSTAGE_APP_CORS},BACKSTAGE_APP_ORG_NAME=${_BACKSTAGE_APP_ORG_NAME}',
-        '--port',
-        '7007',
-        '--vpc-connector',
-        'cloud-native-vpc-connecto',
-      ]
-    secretEnv: ['BACKSTAGE_PG_USERNAME', 'BACKSTAGE_PG_PASSWORD']
-availableSecrets:
-  secretManager:
-    - versionName: projects/${PROJECT_ID}/secrets/BACKSTAGE_PG_PASSWORD/versions/latest
-      env: 'BACKSTAGE_PG_PASSWORD'
-    - versionName: projects/${PROJECT_ID}/secrets/BACKSTAGE_PG_USERNAME/versions/latest
-      env: 'BACKSTAGE_PG_USERNAME'
+      - run
+      - deploy
+      - backstage-xtech-micro
+      - '--image'
+      - 'gcr.io/${PROJECT_ID}/backstage:xtech-micro-${COMMIT_SHA}'
+      - '--region'
+      - europe-west1
+      - '--service-account'
+      - '${_SERVICE_ACCOUNT}'
+      - >-
+        --set-env-vars=POSTGRES_HOST=${_POSTGRES_HOST},POSTGRES_DB=${_POSTGRES_DB},BACKSTAGE_APP_URL=${_BACKSTAGE_APP_URL},BACKSTAGE_APP_TITLE=${_BACKSTAGE_APP_TITLE},BACKSTAGE_APP_CORS=${_BACKSTAGE_APP_CORS},BACKSTAGE_APP_ORG_NAME=${_BACKSTAGE_APP_ORG_NAME}
+      - >-
+        --set-secrets=POSTGRES_USER=BACKSTAGE_PG_USERNAME:latest,POSTGRES_PASSWORD=BACKSTAGE_PG_PASSWORD:latest
+      - '--port'
+      - '7007'
+      - '--vpc-connector'
+      - cloud-native-vpc-connecto
+    entrypoint: gcloud
