@@ -55,4 +55,5 @@ steps:
       - '7007'
       - '--vpc-connector'
       - cloud-native-vpc-connecto
+      - '--allow-unauthenticated'
     entrypoint: gcloud
