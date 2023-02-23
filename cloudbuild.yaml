@@ -1,7 +1,6 @@
 steps:
   # Yarn install
   - name: 'node:16-bullseye-slim'
-    #- name: 'paketobuildpacks/yarn'
     entrypoint: 'yarn'
     args: ['install', '--network-timeout', '300000']
   # Yarn tsc
