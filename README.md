@@ -24,9 +24,11 @@ To deploy dev environment locally please refer to the the docs ([Backstage - Get
      ```
 
 3. Pull Postgres image
+
    ```sh
    docker pull postgres
    ```
+
 4. Create `docker-compose.yml` file in the root of the project
 
    ```yml
@@ -47,9 +49,10 @@ To deploy dev environment locally please refer to the the docs ([Backstage - Get
      backstage:
        image: backstage
        environment:
-         BACKSTAGE_APP_URL: 'http://localhost:7007'
-         BACKSTAGE_APP_TITLE: 'Backstage Docker'
-         BACKSTAGE_APP_ORG_NAME: 'Bip Org'
+         BACKSTAGE_APP_IP: 'localhost'
+         BACKSTAGE_APP_PORT: '7007'
+         BACKSTAGE_APP_TITLE: 'Backstage DEV Docker'
+         BACKSTAGE_APP_ORG_NAME: 'Livio Org'
          BACKSTAGE_APP_CORS: '0.0.0.0'
          POSTGRES_USER: postgres
          POSTGRES_PASSWORD: postgres
@@ -67,6 +70,7 @@ To deploy dev environment locally please refer to the the docs ([Backstage - Get
    Notice that the configurations that are not set in the `app-config.production.yaml` are take from the `app-config.yaml`
 
 5. Run
+
    ```sh
    docker-compose up
    ```
@@ -125,11 +129,11 @@ To deploy dev environment locally please refer to the the docs ([Backstage - Get
             - '--service-account'
             - '${_SERVICE_ACCOUNT}'
             - >-
-              --set-env-vars=POSTGRES_HOST=${_POSTGRES_HOST},POSTGRES_DB=${_POSTGRES_DB},BACKSTAGE_APP_URL=${_BACKSTAGE_APP_URL},BACKSTAGE_APP_TITLE=${_BACKSTAGE_APP_TITLE},BACKSTAGE_APP_CORS=${_BACKSTAGE_APP_CORS},BACKSTAGE_APP_ORG_NAME=${_BACKSTAGE_APP_ORG_NAME}
+              --set-env-vars=POSTGRES_HOST=${_POSTGRES_HOST},POSTGRES_DB=${_POSTGRES_DB},BACKSTAGE_APP_IP=${_BACKSTAGE_APP_IP},BACKSTAGE_APP_PORT=${_BACKSTAGE_APP_PORT},BACKSTAGE_APP_TITLE=${_BACKSTAGE_APP_TITLE},BACKSTAGE_APP_CORS=${_BACKSTAGE_APP_CORS},BACKSTAGE_APP_ORG_NAME=${_BACKSTAGE_APP_ORG_NAME}
             - >-
               --set-secrets=POSTGRES_USER=BACKSTAGE_PG_USERNAME:latest,POSTGRES_PASSWORD=BACKSTAGE_PG_PASSWORD:latest
             - '--port'
-            - '7007'
+            - '${_BACKSTAGE_APP_PORT}'
             - '--vpc-connector'
             - cloud-native-vpc-connecto
             - '--allow-unauthenticated'
@@ -163,7 +167,8 @@ To deploy dev environment locally please refer to the the docs ([Backstage - Get
    | \_BACKSTAGE_APP_CORS     | The ip address authorized to make requests to the server, put 0.0.0.0 to allow everyone                                          |
    | \_BACKSTAGE_APP_ORG_NAME | The name of the organization                                                                                                     |
    | \_BACKSTAGE_APP_TITLE    | The title of the webpage                                                                                                         |
-   | \_BACKSTAGE_APP_URL      | The URL where the app will be listening inside the container, set it to `http://localhost:7007`                                  |
+   | \_BACKSTAGE_APP_IP       | The IP where the app will be listening inside the container, set it to `localhost`                                               |
+   | \_BACKSTAGE_APP_PORT     | The port where the app will be listening inside the container, set it to `7007`                                                  |
    | \_POSTGRES_DB            | The name of the Postgres database                                                                                                |
    | \_POSTGRES_HOST          | The private ip of the database, mind that a vpc connection must be enstablished from Cloud Run to the vpc where the db is hosted |
 
