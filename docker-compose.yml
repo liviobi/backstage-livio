@@ -15,7 +15,8 @@ services:
   backstage:
     image: backstage
     environment:
-      BACKSTAGE_APP_URL: 'http://localhost:7007'
+      BACKSTAGE_APP_IP: 'localhost'
+      BACKSTAGE_APP_PORT: '7007'
       BACKSTAGE_APP_TITLE: 'Backstage DEV Docker'
       BACKSTAGE_APP_ORG_NAME: 'Livio Org'
       BACKSTAGE_APP_CORS: '0.0.0.0'

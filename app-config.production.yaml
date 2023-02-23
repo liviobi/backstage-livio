@@ -1,6 +1,6 @@
 app:
   # Should be the same as backend.baseUrl when using the `app-backend` plugin.
-  baseUrl: ${BACKSTAGE_APP_URL}
+  baseUrl: 'http://${BACKSTAGE_APP_IP}:${BACKSTAGE_APP_PORT}'
   title: ${BACKSTAGE_APP_TITLE}
 
 organization:
@@ -12,10 +12,10 @@ backend:
   # reachable not just from within the backend host, but from all of your
   # callers. When its value is "http://localhost:7007", it's strictly private
   # and can't be reached by others.
-  baseUrl: ${BACKSTAGE_APP_URL}
+  baseUrl: 'http://${BACKSTAGE_APP_IP}:${BACKSTAGE_APP_PORT}'
   # The listener can also be expressed as a single <host>:<port> string. In this case we bind to
   # all interfaces, the most permissive setting. The right value depends on your specific deployment.
-  listen: ':7007'
+  listen: ':${BACKSTAGE_APP_PORT}'
 
   # config options: https://node-postgres.com/api/client
   database:
